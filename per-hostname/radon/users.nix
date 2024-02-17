@@ -9,6 +9,9 @@
 
     shell = pkgs.zsh;
     programs = {};
-    packages = with pkgs; [];
+    packages = with pkgs; [
+      jetbrains.webstorm
+      jetbrains.datagrip
+    ];
   };
 }
