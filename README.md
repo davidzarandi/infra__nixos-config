@@ -5,6 +5,7 @@ Welcome to my personal NixOS Configuration repository!
 ## Common commands
 
 - `nix --experimental-features 'nix-command flakes' flake check .#<hostname>` - Checks configuration
+- `nix-shell -p git` - Temporarily enables git in shell
 - `nixos-install --flake https://github.com/davidzarandi/infra__nixos-config#<hostname>` - Installs NixOS configuration
 
 ## License
