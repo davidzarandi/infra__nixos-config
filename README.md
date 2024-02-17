@@ -1,4 +1,4 @@
-# tmpl__nixos-config
+# infra__nixos-config
 
 Welcome to my personal NixOS Configuration repository!
 
