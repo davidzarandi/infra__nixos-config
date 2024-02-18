@@ -8,7 +8,7 @@
     pkgs, lib, config, ...
   }: {
     extraModules = [
-      (import ../global/modules/services/zerotierone.nix { inherit pkgs config lib; })
+      # (import ../global/modules/services/zerotierone.nix { inherit pkgs config lib; })
     ];
 
     system = {
@@ -115,7 +115,7 @@
 
         packages = with pkgs; [
           webstorm
-          datagrip
+          #datagrip
           qutebrowser-qt5
         ];
 
