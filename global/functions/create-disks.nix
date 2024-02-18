@@ -10,6 +10,7 @@ disks: {
           value = {
             label = partition.label;
             size = partition.size;
+            type = partition.type;
             content = (if partition.fileSystem == "swap" then {
               type = "swap";
               resumeDevice = true;
