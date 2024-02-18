@@ -1,6 +1,6 @@
 { pkgs, lib, config, nixos-hardware, ... }: {
   extraModules = [
-    # (import ../global/modules/services/zerotierone.nix { inherit pkgs config lib; })
+    (import ../global/modules/services/zerotierone.nix { inherit pkgs config lib; })
     nixos-hardware.nixosModules.lenovo-thinkpad-e14-amd
   ];
 
@@ -100,7 +100,7 @@
 
       packages = with pkgs; [
         webstorm
-        #datagrip
+        datagrip
         qutebrowser-qt5
       ];
 
