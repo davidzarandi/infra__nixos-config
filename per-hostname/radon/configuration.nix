@@ -8,9 +8,9 @@
     boot = {
       loader.systemd-boot.enable = true;
       loader.efi.canTouchEfiVariables = true;
-      loader.grub.enable = true;
-      loader.grub.efiSupport = true;
-      loader.grub.efiInstallAsRemovable = true;
+      #loader.grub.enable = true;
+      #loader.grub.efiSupport = true;
+      #loader.grub.efiInstallAsRemovable = true;
       initrd.availableKernelModules = [ "nvme" "xhci_pci" "usb_storage" "sd_mod" ];
       initrd.kernelModules = [ ];
       kernelModules = [ "kvm-amd" ];
