@@ -24,18 +24,22 @@
     nixosConfigurations = builtins.listToAttrs (map (hostname: {
       name = hostname;
       value = let
-        host = (import ./per-hostname/${hostname}.nix);
+        architecture = (import ./per-hostname/${hostname}/architecture.nix);
         pkgs = import nixpkgs {
-          system = "${host.architecture}-linux";
+          system = "${architecture}-linux";
           config.allowUnfree = true;
-          overlays = host.overlays;
+          overlays = (import ./per-hostname/${hostname}/overlays.nix);
         };
       in nixpkgs.lib.nixosSystem {
         specialArgs = {
-          inherit nixpkgs pkgs disko nixos-hardware home-manager sops-nix microvm hostname host;
+          inherit nixpkgs pkgs disko nixos-hardware home-manager sops-nix microvm hostname architecture;
         };
         modules = [ ./global/modules/base-system.nix ];
       };
+    }) hostnames);
+    diskoConfigurations = builtins.listToAttrs (map (hostname: {
+      name = hostname;
+      value = (import ./global/functions/create-disks.nix (import ./per-hostname/${hostname}/disks.nix));
     }) hostnames);
   };
 }

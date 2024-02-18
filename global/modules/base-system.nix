@@ -1,9 +1,9 @@
 {
   nixpkgs, lib, config,
   pkgs, disko, nixos-hardware, home-manager, sops-nix, microvm,
-  hostname, host, ...
+  hostname, architecture, ...
 }: let
-  hostConfiguration = (host.getConfiguration { inherit nixpkgs pkgs lib config; });
+  hostConfiguration = (import ../../per-hostname/${hostname}/configuration.nix { inherit nixpkgs pkgs lib config; });
 in {
   imports = [
     disko.nixosModules.disko
@@ -21,7 +21,7 @@ in {
         home.stateVersion = hostConfiguration.stateVersion;
       } // hostConfiguration.user.home.extraOptions;
     }
-    (import ../functions/create-disks.nix hostConfiguration.system.disks)
+    (import ../functions/create-disks.nix (import ../../per-hostname/${hostname}/disks.nix))
   ] ++ hostConfiguration.extraModules ++ (
     if hostConfiguration.virtualization.enable && hostConfiguration.virtualization.isHost then [
       microvm.nixosModules.host
@@ -31,7 +31,7 @@ in {
     ]
   );
 
-  nixpkgs.hostPlatform = lib.mkDefault "${host.architecture}-linux";
+  nixpkgs.hostPlatform = lib.mkDefault "${architecture}-linux";
   networking.hostName = hostname;
   boot = hostConfiguration.system.boot;
   time.timeZone = hostConfiguration.system.timeZone;
