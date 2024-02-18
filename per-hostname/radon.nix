@@ -5,7 +5,7 @@
     (import ../global/overlays/datagrip.nix)
   ];
   getConfiguration = {
-    nixpkgs, pkgs, lib, config
+    pkgs, lib, config, ...
   }: {
     extraModules = [
       (import ../global/modules/services/zerotierone.nix { inherit pkgs config lib; })
@@ -74,7 +74,7 @@
       };
 
       extraOptions = {
-        hardware.cpu.amd.updateMicrocode = nixpkgs.lib.mkDefault nixpkgs.config.hardware.enableRedistributableFirmware;
+        hardware.cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
         hardware.bluetooth.enable = true;
         security.rtkit.enable = true;
 
