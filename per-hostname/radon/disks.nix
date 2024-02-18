@@ -1,6 +1,6 @@
 {
   "/dev/nvme0n1" = [
-    { label = "NIX_BOOT"; type = "ef00"; size = "300M"; fileSystem = "vfat"; mountPoint = "/boot"; }
+    { label = "NIX_BOOT"; type = "EF00"; size = "300M"; fileSystem = "vfat"; mountPoint = "/boot"; }
     { label = "NIX_ROOT"; type = "8300"; size = "100%"; fileSystem = "ext4"; mountPoint = "/"; }
   ];
   "/dev/nvme1n1" = [
