@@ -3,7 +3,7 @@
   pkgs, disko, nixos-hardware, home-manager, sops-nix, microvm,
   hostname, architecture, ...
 }: let
-  hostConfiguration = (import ../../per-hostname/${hostname}/configuration.nix { inherit nixpkgs pkgs lib config; });
+  hostConfiguration = (import ../../per-hostname/${hostname}/configuration.nix { inherit nixpkgs nixos-hardware pkgs lib config; });
 in {
   imports = [
     disko.nixosModules.disko

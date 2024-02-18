@@ -1,12 +1,16 @@
-{ pkgs, lib, config, ... }: {
+{ pkgs, lib, config, nixos-hardware, ... }: {
   extraModules = [
     # (import ../global/modules/services/zerotierone.nix { inherit pkgs config lib; })
+    nixos-hardware.nixosModules.lenovo-thinkpad-e14-amd
   ];
 
   system = {
     boot = {
-      loader.systemd-boot.enable = true;
-      loader.efi.canTouchEfiVariables = true;
+      # loader.systemd-boot.enable = true;
+      # loader.efi.canTouchEfiVariables = true;
+      loader.grub.enable = true;
+      loader.grub.efiSupport = true;
+      loader.grub.efiInstallAsRemovable = true;
       initrd.availableKernelModules = [ "nvme" "xhci_pci" "usb_storage" "sd_mod" ];
       initrd.kernelModules = [ ];
       kernelModules = [ "kvm-amd" ];
