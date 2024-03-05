@@ -1,0 +1,25 @@
+MenuBar=Disabled
+
+[ContentDisplay]
+UseShortRelativeDates=false
+
+[DetailsMode]
+ExpandableFolders=false
+PreviewSize=16
+
+[General]
+EditableUrl=true
+RememberOpenedTabs=false
+ShowFullPath=true
+ViewPropsTimestamp=2024,2,25,18,52,12.959
+
+[KFileDialog Settings]
+Places Icons Auto-resize=false
+Places Icons Static Size=22
+
+[MainWindow]
+MenuBar=Disabled
+ToolBarsMovable=Disabled
+
+[PreviewSettings]
+Plugins=audiothumbnail,blenderthumbnail,comicbookthumbnail,cursorthumbnail,djvuthumbnail,ebookthumbnail,exrthumbnail,directorythumbnail,fontthumbnail,imagethumbnail,jpegthumbnail,kraorathumbnail,windowsexethumbnail,windowsimagethumbnail,mobithumbnail,opendocumentthumbnail,gsthumbnail,rawthumbnail,svgthumbnail,ffmpegthumbs

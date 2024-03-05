@@ -16,9 +16,13 @@
 
     microvm.url = "github:astro/microvm.nix/v0.4.1";
     microvm.inputs.nixpkgs.follows = "nixpkgs";
+
+    plasma-manager.url = "github:pjones/plasma-manager";
+    plasma-manager.inputs.nixpkgs.follows = "nixpkgs";
+    plasma-manager.inputs.home-manager.follows = "home-manager";
   };
 
-  outputs = { self, nixpkgs, disko, nixos-hardware, home-manager, sops-nix, microvm }: let
+  outputs = { self, nixpkgs, disko, nixos-hardware, home-manager, sops-nix, microvm, plasma-manager }: let
     hostnames = [ "radon" ];
   in {
     nixosConfigurations = builtins.listToAttrs (map (hostname: {
@@ -32,7 +36,7 @@
         };
       in nixpkgs.lib.nixosSystem {
         specialArgs = {
-          inherit nixpkgs pkgs disko nixos-hardware home-manager sops-nix microvm hostname architecture;
+          inherit nixpkgs pkgs disko nixos-hardware home-manager sops-nix microvm plasma-manager hostname architecture;
         };
         modules = [ ./global/modules/base-system.nix ];
       };

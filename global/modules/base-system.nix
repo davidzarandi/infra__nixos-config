@@ -1,6 +1,6 @@
 {
   nixpkgs, lib, config,
-  pkgs, disko, nixos-hardware, home-manager, sops-nix, microvm,
+  pkgs, disko, nixos-hardware, home-manager, sops-nix, microvm, plasma-manager,
   hostname, architecture, ...
 }: let
   hostConfiguration = (import ../../per-hostname/${hostname}/configuration.nix { inherit nixpkgs nixos-hardware pkgs lib config; });
@@ -12,6 +12,9 @@ in {
     home-manager.nixosModules.home-manager {
       home-manager.useGlobalPkgs = true;
       home-manager.useUserPackages = true;
+      home-manager.sharedModules = [
+        plasma-manager.homeManagerModules.plasma-manager
+      ];
       home-manager.users.user = {
         home.username = "user";
         home.homeDirectory = "/home/user";
@@ -19,6 +22,7 @@ in {
         programs = hostConfiguration.user.home.programs;
         home.packages = hostConfiguration.user.home.packages;
         home.stateVersion = hostConfiguration.stateVersion;
+        home.file = (import ../../per-hostname/${hostname}/dotfiles.nix);
       } // hostConfiguration.user.home.extraOptions;
     }
     (import ../functions/create-disks.nix (import ../../per-hostname/${hostname}/disks.nix))

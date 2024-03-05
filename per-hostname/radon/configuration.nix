@@ -6,15 +6,11 @@
 
   system = {
     boot = {
-      kernelPackages = pkgs.linuxPackages_latest;
       loader.systemd-boot.enable = true;
       loader.efi.canTouchEfiVariables = true;
-      #loader.grub.enable = true;
-      #loader.grub.efiSupport = true;
-      #loader.grub.efiInstallAsRemovable = true;
       initrd.availableKernelModules = [ "nvme" "xhci_pci" "usb_storage" "sd_mod" ];
-      initrd.kernelModules = [ ];
-      kernelModules = [ "kvm-amd" ];
+      initrd.kernelModules = [ "amdgpu" ];
+      kernelModules = [ "amdgpu" "kvm-amd" ];
       extraModulePackages = [ ];
     };
 
@@ -28,9 +24,11 @@
 
     services = {
       xserver.enable = true;
+      xserver.videoDrivers = [ "amdgpu" ];
+      xserver.modules = [ pkgs.xorg.xf86videoamdgpu ];
       xserver.displayManager.sddm.enable = true;
-      xserver.displayManager.defaultSession = "none+openbox";
-      xserver.windowManager.openbox.enable = true;
+      xserver.displayManager.defaultSession = "plasmawayland";
+      xserver.desktopManager.plasma5.enable = true;
 
       printing.enable = true;
       printing.drivers = [ pkgs.cnijfilter2 ];
@@ -42,15 +40,21 @@
       pipewire.alsa.enable = true;
       pipewire.alsa.support32Bit = true;
       pipewire.pulse.enable = true;
+      pipewire.wireplumber.enable = true;
+
+      pcscd.enable = true;
     };
 
     packages = with pkgs; [
+      git
       neovim
-      pipecontrol
-      dolphin
-      konsole
+      microcodeAmd
+      pinentry
+      pinentry-qt
       libsForQt5.xdg-desktop-portal-kde
-      libsForQt5.kate
+      libsForQt5.breeze-qt5
+      libsForQt5.breeze-gtk
+      libsForQt5.breeze-icons
     ];
 
     variables = {
@@ -60,7 +64,8 @@
     };
 
     extraOptions = {
-      hardware.cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
+      hardware.cpu.amd.updateMicrocode = true;
+      hardware.enableRedistributableFirmware = true;
       hardware.bluetooth.enable = true;
       security.rtkit.enable = true;
 
@@ -69,14 +74,36 @@
       xdg.portal.config = {
         common.default = "kde";
       };
-      xdg.portal.extraPortals = [ pkgs.libsForQt5.xdg-desktop-portal-kde ];
+      xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-kde ];
+
+      programs.dconf.enable = true;
+      programs.gnupg.agent = {
+        enable = true;
+        enableSSHSupport = true;
+        pinentryFlavor = "qt";
+      };
+
+      fonts.packages = with pkgs; [
+        hack-font
+        dina-font
+        unicode-emoji
+        font-awesome
+      ];
+      fonts.fontDir.enable = true;
+
+      nix.settings.auto-optimise-store = true;
+      nix.gc = {
+        automatic = true;
+        dates = "weekly";
+        options = "--delete-older-than 3d";
+      };
     };
   };
 
   user = {
     shell = pkgs.zsh;
 
-    extraGroups = [];
+    extraGroups = [ ];
 
     home = {
       services = {
@@ -92,23 +119,57 @@
           enable = true;
           dotDir = "/home/user/.config/zsh";
           history.path = "/home/user/.config/zsh/.zsh_history";
-          shellAliases = {
-            "nx-check" = "nix flake check";
-            "nx-rebuild" = "nixos-rebuild --flake davidzarandi/infra__nixos-config#";
+        };
+        plasma = {
+          enable = true;
+          workspace = {
+            clickItemTo = "select";
+            lookAndFeel = "org.kde.breezedark.desktop";
+            theme = "breeze-dark";
+            colorScheme = "Breeze Dark";
           };
+          kwin.titlebarButtons = {
+            left = [ "close" "maximize" "minimize" ];
+            right = [ ];
+          };
+          shortcuts.kwin = {
+            "Switch Window Down" = "Meta+J";
+            "Switch Window Left" = "Meta+H";
+            "Switch Window Right" = "Meta+L";
+            "Switch Window Up" = "Meta+K";
+          };
+          configFile = {
+            "kdeglobals"."General" = {
+              "font" = "Hack,10,-1,5,50,0,0,0,0,0";
+              "menuFont" = "Hack,10,-1,5,50,0,0,0,0,0";
+              "smallestReadableFont" = "Hack,8,-1,5,50,0,0,0,0,0";
+              "toolBarFont" = "Hack,10,-1,5,50,0,0,0,0,0";
+            };
+            "kdeglobals"."WM"."activeFont" = "Hack,10,-1,5,50,0,0,0,0,0";
+          };
+        };
+        git = {
+          enable = true;
+          signing = {
+            key = "2B82DB8BC26A0574";
+            signByDefault = true;
+          };
+          userEmail = "noreply@zdaav.eu";
+          userName = "Dávid J. Zarándi";
         };
       };
 
       packages = with pkgs; [
         webstorm
         datagrip
-        qutebrowser-qt5
+        qutebrowser
+        keepassxc
       ];
 
       extraOptions = {
         qt.enable = true;
         qt.platformTheme = "kde";
-        qt.style.name = "breeze";
+        qt.style.name = "Breeze";
       };
     };
   };
