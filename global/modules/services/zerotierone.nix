@@ -12,7 +12,7 @@ in {
       mkdir -p /var/lib/zerotier-one/networks.d
       chmod 700 /var/lib/zerotier-one
       chown -R root:root /var/lib/zerotier-one
-      touch "/var/lib/zerotier-one/networks.d/$(cat ${config.sops.secrets.zerotier_network_id.path}).conf"
+      touch "/var/lib/zerotier-one/networks.d/$(cat /run/secrets/zerotier_network_id).conf"
     '';
     serviceConfig = {
       User = "root";
