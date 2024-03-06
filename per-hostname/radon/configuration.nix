@@ -219,6 +219,18 @@
       sopsFile = ../../global/secrets/syncthing/key.pem.bin;
       path = "/home/user/.config/syncthing/config/key.pem";
     };
+    "keepassxc/keepassxcrc.bin" = {
+      owner = "user";
+      format = "binary";
+      sopsFile = ../../global/secrets/keepassxc/keepassxcrc.bin;
+      path = "/home/user/.config/KeePassXCrc";
+    };
+    "keepassxc/keepassxc.ini.bin" = {
+      owner = "user";
+      format = "binary";
+      sopsFile = ../../global/secrets/keepassxc/keepassxc.ini.bin;
+      path = "/home/user/.config/keepassxc/keepassxc.ini";
+    };
   };
 
   # DO NOT TOUCH THIS!!!

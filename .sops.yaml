@@ -1,11 +1,7 @@
 keys:
   - &personal age1t5wqlyhh2ft93gwhuxvwxhw6j0pq0xzaek4445dw5z7r9265zv5qrdaws7
 creation_rules:
-  - path_regex: global/secrets/[^/]+\.(yaml)$
+  - path_regex: global/secrets/[^/]+(.[^/]+)?\.(yaml|bin)$
     key_groups:
       - age:
         - *personal
-  - path_regex: global/secrets/[^/]+/[^/]+\.[^/]+.(bin)$
-    key_groups:
-      - age:
-          - *personal
