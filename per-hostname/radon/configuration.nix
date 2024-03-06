@@ -180,11 +180,44 @@
   };
 
   secrets = {
-    syncthing_id = {
-      owner = "user";
-    };
     zerotier_network_id = {
       owner = "root";
+    };
+    "syncthing/cert.pem.bin" = {
+      owner = "user";
+      format = "binary";
+      sopsFile = ../../global/secrets/syncthing/cert.pem.bin;
+      path = "/home/user/.config/syncthing/config/cert.pem";
+    };
+    "syncthing/config.xml.bin" = {
+      owner = "user";
+      format = "binary";
+      sopsFile = ../../global/secrets/syncthing/config.xml.bin;
+      path = "/home/user/.config/syncthing/config/config.xml";
+    };
+    "syncthing/config.xml.v0.bin" = {
+      owner = "user";
+      format = "binary";
+      sopsFile = ../../global/secrets/syncthing/config.xml.v0.bin;
+      path = "/home/user/.config/syncthing/config/config.xml.v0";
+    };
+    "syncthing/https-cert.pem.bin" = {
+      owner = "user";
+      format = "binary";
+      sopsFile = ../../global/secrets/syncthing/https-cert.pem.bin;
+      path = "/home/user/.config/syncthing/config/https-cert.pem";
+    };
+    "syncthing/https-key.pem.bin" = {
+      owner = "user";
+      format = "binary";
+      sopsFile = ../../global/secrets/syncthing/https-key.pem.bin;
+      path = "/home/user/.config/syncthing/config/https-key.pem";
+    };
+    "syncthing/key.pem.bin" = {
+      owner = "user";
+      format = "binary";
+      sopsFile = ../../global/secrets/syncthing/key.pem.bin;
+      path = "/home/user/.config/syncthing/config/key.pem";
     };
   };
 
